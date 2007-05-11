@@ -1,6 +1,6 @@
 %define name	xbase
 %define version 2.0.0
-%define release 5mdk
+%define release %mkrel 6
 %define major 2
 %define libname %mklibname %name %major
 
@@ -46,7 +46,7 @@ Headers and such for compiling programs that use the Xbase library.
 
 %build
 %{?__cputoolize:%{__cputoolize}}
-CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{_prefix} --libdir=%{_libdir} --enable-static
+%configure --enable-static
 %make
 
 %install
@@ -70,12 +70,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n %{libname}
 %defattr(-,root,root,-)
-%{_libdir}/libxbase-2.0.so.*
+%{_libdir}/*.so.*
 
 %files -n %{libname}-devel
 %defattr(-,root,root,-)
 %doc docs html
 %{_includedir}/xbase
-%{_libdir}/libxbase.so
-%{_libdir}/libxbase.la
-%{_libdir}/libxbase.a
+%{_libdir}/*.so
+%{_libdir}/*.*a
