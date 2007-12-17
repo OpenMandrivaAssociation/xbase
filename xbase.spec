@@ -13,7 +13,6 @@ Source: 	%{name}-%{version}.tar.bz2
 License:	LGPL
 Group: 		Development/Other
 URL:		http://linux.techass.com/projects/xdb/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:  libstdc++-devel
 
 
