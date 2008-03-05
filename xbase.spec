@@ -1,6 +1,5 @@
 %define name	xbase
 %define version 2.0.0
-%define release %mkrel 6
 %define major 2
 %define libname %mklibname %name %major
 
@@ -8,7 +7,7 @@
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	%{release}
+Release: 	%mkrel 7
 Source: 	%{name}-%{version}.tar.bz2
 License:	LGPL
 Group: 		Development/Other
