@@ -8,7 +8,7 @@
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	%mkrel 8
+Release: 	%mkrel 9
 Source: 	%{name}-%{version}.tar.bz2
 # (fc) 2.0.0-8mdv fix build with gcc 4.3 (Fedora)
 Patch0:		xbase-2.0.0-gcc43.patch
@@ -39,6 +39,9 @@ Summary: Xbase development package
 Group: Development/Other
 Requires: %{libname} = %version
 Provides: %name-devel = %version-%release
+%if %{_lib} != lib 
+Provides: lib%name-devel = %version-%release
+%endif
 Obsoletes: %{name}-devel < 2.0.0-8mdv
 Obsoletes: %{libname}-devel < 2.0.0-8mdv
 
