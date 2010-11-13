@@ -18,6 +18,7 @@ Group: 		Development/Other
 URL:		http://linux.techass.com/projects/xdb/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	doxygen
+BuildRequires:	multiarch-utils
 
 %description
 Library for accessing dBase .dbf, .ndx, .dbt, and Clipper .ntx files.
@@ -74,6 +75,8 @@ pushd $RPM_BUILD_ROOT%{_includedir}
 ln -s xbase64 xbase
 popd
 
+%multiarch_binaries %{buildroot}%{_bindir}/xbase-config
+
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
 %endif
@@ -98,5 +101,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc docs html
 %{_bindir}/xbase-config
+%{multiarch_bindir}/xbase-config
 %{_includedir}/xbase*
 %{_libdir}/*.so
