@@ -1,27 +1,22 @@
 %define name	xbase
-%define version 2.0.0
-%define major 2
+%define version 3.1.2
+%define major 1
 %define libname %mklibname %name %major
 %define libnamedev %mklibname -d %name 
-
 
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	%mkrel 11
-Source: 	%{name}-%{version}.tar.bz2
-# (fc) 2.0.0-8mdv fix build with gcc 4.3 (Fedora)
-Patch0:		xbase-2.0.0-gcc43.patch
-# (fc) 2.0.0-8mdv fix xbase-config --ld (RH bug #162845) (Fedora)
-Patch1:		xbase-2.0.0-fixconfig.patch
-License:	LGPL
+Release: 	%mkrel 1
+Source:		http://downloads.sourceforge.net/xdb/%{name}64-%{version}.tar.gz
+Patch0:		xbase-3.1.2-fixconfig.patch
+Patch1:		xbase-3.1.2-gcc44.patch
+Patch2:		xbase-2.0.0-ppc.patch
+Patch3:		xbase-3.1.2-xbnode.patch
+License:	LGPLv2+
 Group: 		Development/Other
 URL:		http://linux.techass.com/projects/xdb/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
-BuildRequires:  libstdc++-devel
-
-
-%undefine __check_files
 
 %description
 Library for accessing dBase .dbf, .ndx, .dbt, and Clipper .ntx files.
@@ -39,9 +34,6 @@ Summary: Xbase development package
 Group: Development/Other
 Requires: %{libname} = %version
 Provides: %name-devel = %version-%release
-%if %{_lib} != lib 
-Provides: lib%name-devel = %version-%release
-%endif
 Obsoletes: %{name}-devel < 2.0.0-8mdv
 Obsoletes: %{libname}-devel < 2.0.0-8mdv
 
@@ -49,18 +41,38 @@ Obsoletes: %{libname}-devel < 2.0.0-8mdv
 Headers and such for compiling programs that use the Xbase library.
 
 %prep
-%setup -n %{name}-%{version} -q
-%patch0 -p1 -b .gcc43
-%patch1 -p1 -b .fixconfig
-
+%setup -qn %{name}64-%{version}
+%patch0 -p1
+%patch1 -p1 -b .gcc44
+%patch2 -p1
+%patch3 -p1
 
 %build
+touch AUTHORS README NEWS
+cp -p copying COPYING
+autoreconf -i
 %configure2_5x --disable-static
 %make
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %makeinstall_std
+
+rm -rf $RPM_BUILD_ROOT%{_libdir}/*.la
+
+# Fix files for multilib
+touch -r COPYING $RPM_BUILD_ROOT%{_bindir}/xbase-config
+touch -r COPYING docs/html/*.html
+
+pushd $RPM_BUILD_ROOT%{_libdir}
+ln -s libxbase64.so.1.0.0 libxbase.so.1.0.0
+ln -s libxbase64.so.1 libxbase.so.1
+ln -s libxbase64.so libxbase.so
+popd
+
+pushd $RPM_BUILD_ROOT%{_includedir}
+ln -s xbase64 xbase
+popd
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
@@ -74,7 +86,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc NEWS README TODO AUTHORS COPYING ChangeLog
+%doc NEWS README AUTHORS COPYING ChangeLog
 %{_bindir}/*
 %exclude %{_bindir}/xbase-config
 
@@ -88,4 +100,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/xbase-config
 %{_includedir}/xbase
 %{_libdir}/*.so
-%{_libdir}/*.la
