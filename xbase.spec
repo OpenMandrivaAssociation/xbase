@@ -17,6 +17,7 @@ License:	LGPLv2+
 Group: 		Development/Other
 URL:		http://linux.techass.com/projects/xdb/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+BuildRequires:	doxygen
 
 %description
 Library for accessing dBase .dbf, .ndx, .dbt, and Clipper .ntx files.
@@ -62,7 +63,6 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/*.la
 
 # Fix files for multilib
 touch -r COPYING $RPM_BUILD_ROOT%{_bindir}/xbase-config
-touch -r COPYING docs/html/*.html
 
 pushd $RPM_BUILD_ROOT%{_libdir}
 ln -s libxbase64.so.1.0.0 libxbase.so.1.0.0
@@ -98,5 +98,5 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc docs html
 %{_bindir}/xbase-config
-%{_includedir}/xbase
+%{_includedir}/xbase*
 %{_libdir}/*.so
