@@ -7,7 +7,7 @@
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	%mkrel 1
+Release: 	%mkrel 2
 Source:		http://downloads.sourceforge.net/xdb/%{name}64-%{version}.tar.gz
 Patch0:		xbase-3.1.2-fixconfig.patch
 Patch1:		xbase-3.1.2-gcc44.patch
@@ -73,6 +73,7 @@ popd
 
 pushd $RPM_BUILD_ROOT%{_includedir}
 ln -s xbase64 xbase
+ln -s xbase64.h xbase64/xbase.h
 popd
 
 %multiarch_binaries %{buildroot}%{_bindir}/xbase-config
