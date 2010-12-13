@@ -7,7 +7,7 @@
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	%mkrel 2
+Release: 	%mkrel 3
 Source:		http://downloads.sourceforge.net/xdb/%{name}64-%{version}.tar.gz
 Patch0:		xbase-3.1.2-fixconfig.patch
 Patch1:		xbase-3.1.2-gcc44.patch
@@ -97,6 +97,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n %{libname}
 %defattr(-,root,root,-)
 %{_libdir}/*.so.*
+
+%pre -n %{libnamedev}
+if [ "$1" == "2" -a -d %{_includedir}/xbase ]
+then
+	rm -fr %{_includedir}/xbase
+fi
 
 %files -n %{libnamedev}
 %defattr(-,root,root,-)
