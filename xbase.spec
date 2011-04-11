@@ -7,7 +7,7 @@
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	%mkrel 3
+Release: 	%mkrel 4
 Source:		http://downloads.sourceforge.net/xdb/%{name}64-%{version}.tar.gz
 Patch0:		xbase-3.1.2-fixconfig.patch
 Patch1:		xbase-3.1.2-gcc44.patch
@@ -38,6 +38,7 @@ Requires: %{libname} = %version
 Provides: %name-devel = %version-%release
 Obsoletes: %{name}-devel < 2.0.0-8mdv
 Obsoletes: %{libname}-devel < 2.0.0-8mdv
+Conflicts: %{name} < 3.1.2-4
 
 %description -n %{libnamedev}
 Headers and such for compiling programs that use the Xbase library.
@@ -62,9 +63,6 @@ rm -rf $RPM_BUILD_ROOT
 
 rm -rf $RPM_BUILD_ROOT%{_libdir}/*.la
 
-# Fix files for multilib
-touch -r COPYING $RPM_BUILD_ROOT%{_bindir}/xbase-config
-
 pushd $RPM_BUILD_ROOT%{_libdir}
 ln -s libxbase64.so.1.0.0 libxbase.so.1.0.0
 ln -s libxbase64.so.1 libxbase.so.1
@@ -76,7 +74,11 @@ ln -s xbase64 xbase
 ln -s xbase64.h xbase64/xbase.h
 popd
 
-%multiarch_binaries %{buildroot}%{_bindir}/xbase-config
+pushd $RPM_BUILD_ROOT%{_bindir}
+ln -s xbase64-config xbase-config
+popd
+
+%multiarch_binaries %{buildroot}%{_bindir}/xbase64-config
 
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
@@ -90,9 +92,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc NEWS README AUTHORS COPYING ChangeLog
-%{_bindir}/*
-%exclude %{_bindir}/xbase-config
+%doc NEWS README AUTHORS ChangeLog
+%{_bindir}/checkndx
+%{_bindir}/copydbf
+%{_bindir}/dbfutil1
+%{_bindir}/dbfxtrct
+%{_bindir}/deletall
+%{_bindir}/dumphdr
+%{_bindir}/dumprecs
+%{_bindir}/packdbf
+%{_bindir}/reindex
+%{_bindir}/undelall
+%{_bindir}/zap
 
 %files -n %{libname}
 %defattr(-,root,root,-)
@@ -108,6 +119,7 @@ fi
 %defattr(-,root,root,-)
 %doc docs html
 %{_bindir}/xbase-config
-%{multiarch_bindir}/xbase-config
+%{_bindir}/xbase64-config
+%{multiarch_bindir}/xbase64-config
 %{_includedir}/xbase*
 %{_libdir}/*.so
