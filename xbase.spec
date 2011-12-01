@@ -58,23 +58,23 @@ autoreconf -i
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std
 
-rm -rf $RPM_BUILD_ROOT%{_libdir}/*.la
+rm -rf %{buildroot}%{_libdir}/*.la
 
-pushd $RPM_BUILD_ROOT%{_libdir}
+pushd %{buildroot}%{_libdir}
 ln -s libxbase64.so.1.0.0 libxbase.so.1.0.0
 ln -s libxbase64.so.1 libxbase.so.1
 ln -s libxbase64.so libxbase.so
 popd
 
-pushd $RPM_BUILD_ROOT%{_includedir}
+pushd %{buildroot}%{_includedir}
 ln -s xbase64 xbase
 ln -s xbase64.h xbase64/xbase.h
 popd
 
-pushd $RPM_BUILD_ROOT%{_bindir}
+pushd %{buildroot}%{_bindir}
 ln -s xbase64-config xbase-config
 popd
 
@@ -88,7 +88,7 @@ popd
 %endif
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
