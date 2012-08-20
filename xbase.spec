@@ -7,12 +7,17 @@
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	%mkrel 5
+Release: 	%mkrel 6
 Source0:	http://downloads.sourceforge.net/xdb/%{name}64-%{version}.tar.gz
-Patch0:		xbase-3.1.2-fixconfig.patch
-Patch1:		xbase-3.1.2-gcc44.patch
-Patch2:		xbase-2.0.0-ppc.patch
-Patch3:		xbase-3.1.2-xbnode.patch
+Patch0:		%{name}-%{version}-fixconfig.patch
+Patch2:		%{name}-%{version}-gcc44.patch
+Patch3:		%{name}-2.0.0-ppc.patch
+Patch4:		%{name}-%{version}-xbnode.patch
+Patch5:		%{name}-%{version}-lesserg.patch
+Patch6:		%{name}-%{version}-outofsource.patch
+Patch7:		%{name}-%{version}-gcc47.patch
+Patch8:		%{name}-%{version}-gcc-version.patch
+
 License:	LGPLv2+
 Group: 		Development/Other
 URL:		http://linux.techass.com/projects/xdb/
@@ -44,10 +49,8 @@ Headers and such for compiling programs that use the Xbase library.
 
 %prep
 %setup -qn %{name}64-%{version}
-%patch0 -p1
-%patch1 -p1 -b .gcc44
-%patch2 -p1
-%patch3 -p1
+%apply_patches
+
 
 %build
 touch AUTHORS README NEWS
