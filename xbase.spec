@@ -7,8 +7,8 @@
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	%mkrel 4
-Source:		http://downloads.sourceforge.net/xdb/%{name}64-%{version}.tar.gz
+Release: 	%mkrel 5
+Source0:	http://downloads.sourceforge.net/xdb/%{name}64-%{version}.tar.gz
 Patch0:		xbase-3.1.2-fixconfig.patch
 Patch1:		xbase-3.1.2-gcc44.patch
 Patch2:		xbase-2.0.0-ppc.patch
@@ -16,7 +16,6 @@ Patch3:		xbase-3.1.2-xbnode.patch
 License:	LGPLv2+
 Group: 		Development/Other
 URL:		http://linux.techass.com/projects/xdb/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 BuildRequires:	doxygen
 BuildRequires:	multiarch-utils
 
@@ -80,18 +79,7 @@ popd
 
 %multiarch_binaries %{buildroot}%{_bindir}/xbase64-config
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig 
-%endif
-
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root,-)
 %doc NEWS README AUTHORS ChangeLog
 %{_bindir}/checkndx
 %{_bindir}/copydbf
@@ -106,7 +94,6 @@ rm -rf %{buildroot}
 %{_bindir}/zap
 
 %files -n %{libname}
-%defattr(-,root,root,-)
 %{_libdir}/*.so.*
 
 %pre -n %{libnamedev}
@@ -116,7 +103,6 @@ then
 fi
 
 %files -n %{libnamedev}
-%defattr(-,root,root,-)
 %doc docs html
 %{_bindir}/xbase-config
 %{_bindir}/xbase64-config
