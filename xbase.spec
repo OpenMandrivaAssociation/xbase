@@ -17,6 +17,7 @@ Patch5:		%{name}-%{version}-lesserg.patch
 Patch6:		%{name}-%{version}-outofsource.patch
 Patch7:		%{name}-%{version}-gcc47.patch
 Patch8:		%{name}-%{version}-gcc-version.patch
+Patch9:		xbase-automake-1.13.patch
 
 License:	LGPLv2+
 Group: 		Development/Other

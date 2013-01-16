@@ -1,0 +1,11 @@
+--- xbase64-3.1.2/configure.in.bero	2013-01-16 04:06:12.523565479 +0100
++++ xbase64-3.1.2/configure.in	2013-01-16 04:06:18.029499946 +0100
+@@ -49,7 +49,7 @@ AC_CONFIG_SRCDIR( examples/exfilter.cpp,
+ AM_INIT_AUTOMAKE(xbase64, 3.1.2)
+ 
+ # create this header file
+-AM_CONFIG_HEADER(xbase64/xbconfig.h:xbase64/xbconfig.in)
++AC_CONFIG_HEADERS([xbase64/xbconfig.h:xbase64/xbconfig.in])
+ 
+ #create a library
+ AM_PROG_LIBTOOL
