@@ -7,8 +7,9 @@
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	%mkrel 6
+Release: 	7
 Source0:	http://downloads.sourceforge.net/xdb/%{name}64-%{version}.tar.gz
+Source100:	%{name}.rpmlintrc
 Patch0:		%{name}-%{version}-fixconfig.patch
 Patch2:		%{name}-%{version}-gcc44.patch
 Patch3:		%{name}-2.0.0-ppc.patch
