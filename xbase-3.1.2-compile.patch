@@ -1,0 +1,110 @@
+diff -up xbase64-3.1.2/bin/dbfutil1.cpp.omv~ xbase64-3.1.2/bin/dbfutil1.cpp
+--- xbase64-3.1.2/bin/dbfutil1.cpp.omv~	2019-08-22 23:16:14.009568345 +0200
++++ xbase64-3.1.2/bin/dbfutil1.cpp	2019-08-22 23:17:37.398893700 +0200
+@@ -157,7 +157,7 @@ void  MyClass::SetFilter()
+   memset( Expression, 0x00, 512 );
+   while( !strlen( Expression )){
+     std::cout << "Enter filter expression (like AMOUNT<5)" << std::endl;
+-    gets( Expression );
++    fgets( Expression , sizeof(Expression), stdin);
+   }
+   if( xbf )
+     delete xbf;
+@@ -247,7 +247,7 @@ void MyClass::ProcessExpression()
+   while( !strstr( exprsn, "QUIT" ) && !strstr( exprsn, "quit" )){
+ 
+     std::cout << ">";
+-    gets( exprsn );
++    fgets( exprsn, sizeof(exprsn), stdin);
+ 
+     if( strstr( exprsn, "HELP" ) || strstr( exprsn, "help" )){
+       std::cout << "** Command Help ***"    << std::endl << std::endl;
+diff -up xbase64-3.1.2/xbase64/xblock.cpp.omv~ xbase64-3.1.2/xbase64/xblock.cpp
+--- xbase64-3.1.2/xbase64/xblock.cpp.omv~	2019-08-22 23:14:01.312043850 +0200
++++ xbase64-3.1.2/xbase64/xblock.cpp	2019-08-22 23:15:25.106376093 +0200
+@@ -84,7 +84,7 @@ xbLock::xbLock(xbDbf * pdbf)
+   TableLockCnt = 0;
+   MemoLockCnt  = 0;
+   IndexLockCnt = 0;
+-  std::cout << "xbLock constructor" << std::cout;
++  std::cout << "xbLock constructor" << std::endl;
+ }
+ /*************************************************************************/
+ xbLock::~xbLock()
+@@ -169,7 +169,7 @@ else if( LockType == XB_LOCK || LockType
+ /*************************************************************************/
+ xbaseLock::xbaseLock( xbDbf * pdbf ) : xbLock( pdbf )
+ {
+-  std::cout << "xbaseLock constructor" << std::cout;
++  std::cout << "xbaseLock constructor" << std::endl;
+ }
+ /*************************************************************************/
+ xbShort xbaseLock::LockTableHeader( xbShort LockType )
+@@ -297,10 +297,11 @@ xbShort xbaseLock::LockIndex( xbShort Lo
+   rc = LockFile( fileno( lfh ), LockType, 1 );
+   
+   if( rc == XB_NO_ERROR )
+-    if( LockType == XB_UNLOCK )
++    if( LockType == XB_UNLOCK ) {
+       IndexLockCnt--;
+-    else
++    } else {
+       IndexLockCnt++;
++    }
+ 
+   return rc; 
+ }
+@@ -336,7 +337,7 @@ xbShort xbaseLock::LockInit()
+ /*************************************************************************/
+ dbaseLock::dbaseLock( xbDbf * pdbf ) : xbLock( pdbf )
+ {
+-  std::cout << "dbaseLock constructor" << std::cout;
++  std::cout << "dbaseLock constructor" << std::endl;
+ }
+ /*************************************************************************/
+ xbShort dbaseLock::LockTableHeader( xbShort LockType )
+@@ -460,7 +461,7 @@ xbShort dbaseLock::UnlockAll()
+ /*************************************************************************/
+ clipperLock::clipperLock( xbDbf * pdbf ) : xbLock( pdbf )
+ {
+-  std::cout << "clipperLock constructor" << std::cout;
++  std::cout << "clipperLock constructor" << std::endl;
+ }
+ /*************************************************************************/
+ xbShort clipperLock::LockTableHeader( xbShort LockType )
+@@ -523,7 +524,7 @@ xbShort clipperLock::UnlockAll()
+ /*************************************************************************/
+ foxproLock::foxproLock( xbDbf * pdbf ) : xbLock( pdbf )
+ {
+-  std::cout << "foxproLock constructor" << std::cout;
++  std::cout << "foxproLock constructor" << std::endl;
+ }
+ /*************************************************************************/
+ xbShort foxproLock::LockTableHeader( xbShort LockType )
+diff -up xbase64-3.1.2/xbase64/xbndx.cpp.omv~ xbase64-3.1.2/xbase64/xbndx.cpp
+--- xbase64-3.1.2/xbase64/xbndx.cpp.omv~	2019-08-22 23:13:11.777845542 +0200
++++ xbase64-3.1.2/xbase64/xbndx.cpp	2019-08-22 23:13:23.765893676 +0200
+@@ -443,10 +443,7 @@ char * xbNdx::GetKeyData( xbShort RecNo,
+ */
+ xbLong xbNdx::GetTotalNodes( void ) 
+ {
+-  if( &HeadNode )
+-    return HeadNode.TotalNodes;
+-  else
+-    return 0L;
++  return HeadNode.TotalNodes;
+ }
+ /***********************************************************************/
+ //! Short description
+@@ -454,10 +451,7 @@ xbLong xbNdx::GetTotalNodes( void )
+ */
+ xbUShort xbNdx::GetKeysPerNode( void ) 
+ {
+-  if( &HeadNode )
+-    return HeadNode.KeysPerNode;
+-  else
+-    return 0L;
++  return HeadNode.KeysPerNode;
+ }
+ /***********************************************************************/
+ //! Short description

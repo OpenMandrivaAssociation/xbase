@@ -7,10 +7,11 @@
 Summary:	Xbase dBase database file library
 Name: 		%{name}
 Version:	%{version}
-Release: 	16
+Release: 	17
 Source0:	http://downloads.sourceforge.net/xdb/%{name}64-%{version}.tar.gz
 Source100:	%{name}.rpmlintrc
 Patch0:		%{name}-%{version}-fixconfig.patch
+Patch1:		xbase-3.1.2-compile.patch
 Patch2:		%{name}-%{version}-gcc44.patch
 Patch3:		%{name}-2.0.0-ppc.patch
 Patch4:		%{name}-%{version}-xbnode.patch
@@ -24,7 +25,6 @@ License:	LGPLv2+
 Group: 		Development/Other
 URL:		http://linux.techass.com/projects/xdb/
 BuildRequires:	doxygen
-BuildRequires:	multiarch-utils
 
 %description
 Library for accessing dBase .dbf, .ndx, .dbt, and Clipper .ntx files.
@@ -82,8 +82,6 @@ pushd %{buildroot}%{_bindir}
 ln -s xbase64-config xbase-config
 popd
 
-%multiarch_binaries %{buildroot}%{_bindir}/xbase64-config
-
 %files
 %doc NEWS README AUTHORS ChangeLog
 %{_bindir}/checkndx
@@ -111,6 +109,5 @@ fi
 %doc docs html
 %{_bindir}/xbase-config
 %{_bindir}/xbase64-config
-%{multiarch_bindir}/xbase64-config
 %{_includedir}/xbase*
 %{_libdir}/*.so
