@@ -51,7 +51,7 @@ Headers and such for compiling programs that use the Xbase library.
 
 %prep
 %setup -qn %{name}64-%{version}
-%apply_patches
+%autopatch -p1
 
 
 %build
