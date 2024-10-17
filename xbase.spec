@@ -23,7 +23,7 @@ Patch9:		xbase-automake-1.13.patch
 
 License:	LGPLv2+
 Group: 		Development/Other
-URL:		http://linux.techass.com/projects/xdb/
+URL:		https://linux.techass.com/projects/xdb/
 BuildRequires:	doxygen
 
 %description
